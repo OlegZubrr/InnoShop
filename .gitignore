@@ -1,0 +1,121 @@
+### Rider ###
+.idea/
+*.sln.iml
+
+# Rider settings folder
+.idea/**
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Rider caches
+.idea/.idea.*
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/dictionaries
+.idea/httpRequests
+.idea/shelf/
+.idea/dataSources/
+.idea/dataSources.ids
+.idea/dataSources.local.xml
+.idea/sqlDataSources.xml
+.idea/dynamic.xml
+.idea/uiDesigner.xml
+.idea/gradle.xml
+.idea/libraries
+.idea/assetWizard.xml
+.idea/caches/
+.idea/compiler.xml
+
+# JetBrains Rider specific files
+*.DotSettings.user
+*.sln.iml
+
+### Build results ###
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+
+### Visual Studio ###
+.vs/
+*.dbmdl
+*.bak
+*.backup
+*.BLOB
+*.sdf
+*.mdf
+*.ldf
+*.ndf
+
+# Uncomment if using local databases
+# App_Data/
+
+# MSTest test results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+# NUnit
+*.VisualState.xml
+TestResult.xml
+nunit-*.xml
+
+### Others ###
+_ReSharper*/
+*.resharper
+*.DotSettings
+*.userprefs
+*.orig
+
+# NuGet
+*.nupkg
+*.snupkg
+**/packages/*
+!**/packages/build/
+*.nuget.props
+*.nuget.targets
+
+# Ignore virtual environment directories
+.env/
+.venv/
+
+# OS-specific
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+# Tooling
+*.swp
+*.swo
+
+# Rider logs
+.idea/system/
+
+# Publish
+*.publishsettings
+*.pubxml.user
+*.Publish.xml
+
+# Coverage
+*.coverage
+*.coveragexml
+
+# Temporary files
+~$*
+*.tmp
+*.temp
+
+# Auto-generated files
+Generated/
+obj/
+bin/
