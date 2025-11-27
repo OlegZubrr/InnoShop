@@ -4,13 +4,20 @@
         <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Persistence\EntityConfigurations\" />
-      <Folder Include="Persistence\Migrations\" />
-      <Folder Include="Repositories\" />
-      <Folder Include="Services\" />
+        <Folder Include="Persistence\EntityConfigurations\"/>
+        <Folder Include="Persistence\Migrations\"/>
+        <Folder Include="Repositories\"/>
+        <Folder Include="Services\"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="..\..\..\.dockerignore">
+            <Link>.dockerignore</Link>
+        </Content>
     </ItemGroup>
 
 </Project>

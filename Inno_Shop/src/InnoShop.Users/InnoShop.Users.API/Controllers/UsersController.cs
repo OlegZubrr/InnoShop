@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using AutoMapper;
 using InnoShop.Users.Application.DTOs;
+using InnoShop.Users.Application.Events;
 using InnoShop.Users.Application.Interfaces.Services;
 using InnoShop.Users.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
@@ -15,16 +16,19 @@ public class UsersController : ControllerBase
 {
     private readonly ILogger<UsersController> _logger;
     private readonly IMapper _mapper;
+    private readonly IMessageBus _messageBus;
     private readonly IUserService _userService;
 
     public UsersController(
         IUserService userService,
         IMapper mapper,
-        ILogger<UsersController> logger)
+        ILogger<UsersController> logger,
+        IMessageBus messageBus)
     {
         _userService = userService;
         _mapper = mapper;
         _logger = logger;
+        _messageBus = messageBus;
     }
 
     [HttpGet]
@@ -85,8 +89,21 @@ public class UsersController : ControllerBase
     [Authorize(Policy = "AdminOnly")]
     public async Task<IActionResult> Delete(Guid id)
     {
+        var user = await _userService.GetByIdAsync(id);
+
         await _userService.DeleteAsync(id);
         _logger.LogInformation("User deleted: {Id}", id);
+
+        var deleteEvent = new UserDeletedEvent
+        {
+            UserId = user!.Id,
+            Email = user.Email,
+            DeletedAt = DateTime.UtcNow
+        };
+
+        await _messageBus.PublishAsync(deleteEvent, "user.deleted");
+        _logger.LogInformation("UserDeletedEvent published for user: {Id}", id);
+
         return NoContent();
     }
 
@@ -94,11 +111,20 @@ public class UsersController : ControllerBase
     [Authorize(Policy = "AdminOnly")]
     public async Task<IActionResult> Deactivate(Guid id)
     {
+        var user = await _userService.GetByIdAsync(id);
+
         await _userService.DeactivateAsync(id);
         _logger.LogInformation("User deactivated: {Id}", id);
 
-        // TODO: Отправить событие в RabbitMQ для скрытия продуктов пользователя
-        // await _messageBus.PublishAsync(new UserDeactivatedEvent { UserId = id });
+        var deactivateEvent = new UserDeactivatedEvent
+        {
+            UserId = user!.Id,
+            Email = user.Email,
+            DeactivatedAt = DateTime.UtcNow
+        };
+
+        await _messageBus.PublishAsync(deactivateEvent, "user.deactivated");
+        _logger.LogInformation("UserDeactivatedEvent published for user: {Id}", id);
 
         return Ok(new { message = "User deactivated successfully" });
     }
@@ -107,11 +133,20 @@ public class UsersController : ControllerBase
     [Authorize(Policy = "AdminOnly")]
     public async Task<IActionResult> Activate(Guid id)
     {
+        var user = await _userService.GetByIdAsync(id);
+
         await _userService.ActivateAsync(id);
         _logger.LogInformation("User activated: {Id}", id);
 
-        // TODO: Отправить событие в RabbitMQ для восстановления продуктов пользователя
-        // await _messageBus.PublishAsync(new UserActivatedEvent { UserId = id });
+        var activateEvent = new UserActivatedEvent
+        {
+            UserId = user!.Id,
+            Email = user.Email,
+            ActivatedAt = DateTime.UtcNow
+        };
+
+        await _messageBus.PublishAsync(activateEvent, "user.activated");
+        _logger.LogInformation("UserActivatedEvent published for user: {Id}", id);
 
         return Ok(new { message = "User activated successfully" });
     }

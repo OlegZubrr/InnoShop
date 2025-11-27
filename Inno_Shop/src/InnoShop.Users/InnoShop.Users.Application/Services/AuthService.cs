@@ -3,6 +3,7 @@ using InnoShop.Users.Application.DTOs;
 using InnoShop.Users.Application.Interfaces.Repositories;
 using InnoShop.Users.Application.Interfaces.Services;
 using InnoShop.Users.Domain.Entities;
+using InnoShop.Users.Domain.Enums;
 using InnoShop.Users.Domain.Exceptions;
 
 namespace InnoShop.Users.Application.Services;
@@ -63,7 +64,7 @@ public class AuthService : IAuthService
             FullName = createDto.FullName,
             Email = createDto.Email,
             PasswordHash = passwordHash,
-            Role = createDto.Role,
+            Role = UserRole.User,
             IsActive = true,
             IsEmailConfirmed = false,
             EmailConfirmationToken = _tokenService.GenerateEmailConfirmationToken(),
