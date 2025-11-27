@@ -119,3 +119,5 @@ desktop.ini
 Generated/
 obj/
 bin/
+
+appsettings.json
