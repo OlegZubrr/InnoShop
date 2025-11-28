@@ -1,12 +1,12 @@
 namespace InnoShop.Users.Domain.Exceptions;
 
-public class UserAlreadyExistsException:Exception
+public class UserAlreadyExistsException : Exception
 {
-    public string Email { get; }
-
     public UserAlreadyExistsException(string email)
-        : base($"User with email '{email}' already exists.")
+        : base($"User with email '{email}' already exists")
     {
         Email = email;
     }
+
+    public string Email { get; }
 }

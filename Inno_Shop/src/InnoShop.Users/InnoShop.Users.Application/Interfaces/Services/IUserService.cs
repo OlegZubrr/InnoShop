@@ -1,4 +1,5 @@
 using InnoShop.Users.Domain.Entities;
+using InnoShop.Users.Domain.Enums;
 
 namespace InnoShop.Users.Application.Interfaces.Services;
 
@@ -13,6 +14,6 @@ public interface IUserService
     Task<bool> DeactivateAsync(Guid id);
     Task<bool> ActivateAsync(Guid id);
     Task<bool> IsExistsAsync(Guid id);
-
     Task<bool> ChangePasswordAsync(Guid userId, string currentPassword, string newPassword);
+    Task<bool> UpdateRoleAsync(Guid userId, UserRole role);
 }

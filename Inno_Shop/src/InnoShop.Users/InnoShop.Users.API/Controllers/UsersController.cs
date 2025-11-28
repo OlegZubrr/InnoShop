@@ -167,4 +167,14 @@ public class UsersController : ControllerBase
         _logger.LogInformation("Password changed for user: {Id}", id);
         return Ok(new { message = "Password changed successfully" });
     }
+
+    [HttpPatch("{id:guid}/role")]
+    [Authorize(Policy = "AdminOnly")]
+    public async Task<IActionResult> UpdateRole(Guid id, [FromBody] UpdateUserRoleDto updateRoleDto)
+    {
+        await _userService.UpdateRoleAsync(id, updateRoleDto.Role);
+        _logger.LogInformation("User role updated: {Id} to {Role}", id, updateRoleDto.Role);
+
+        return Ok(new { message = $"User role updated to {updateRoleDto.Role}" });
+    }
 }

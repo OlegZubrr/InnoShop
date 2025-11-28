@@ -12,10 +12,4 @@
         <Folder Include="UnitTests\"/>
     </ItemGroup>
 
-    <ItemGroup>
-        <Content Include="..\..\..\.dockerignore">
-            <Link>.dockerignore</Link>
-        </Content>
-    </ItemGroup>
-
 </Project>

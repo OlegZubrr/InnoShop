@@ -17,8 +17,6 @@ public class UserUpdateDtoValidator : AbstractValidator<UserUpdateDto>
             .NotEmpty().WithMessage("Email is required")
             .EmailAddress().WithMessage("Invalid email format");
 
-        RuleFor(x => x.Role)
-            .IsInEnum().WithMessage("Invalid role");
 
         RuleFor(x => x.IsActive)
             .NotNull().WithMessage("User status is required");

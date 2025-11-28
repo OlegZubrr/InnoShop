@@ -34,10 +34,4 @@
         <ProjectReference Include="..\InnoShop.Users.Application\InnoShop.Users.Application.csproj"/>
     </ItemGroup>
 
-    <ItemGroup>
-        <Content Include="..\..\..\.dockerignore">
-            <Link>.dockerignore</Link>
-        </Content>
-    </ItemGroup>
-
 </Project>

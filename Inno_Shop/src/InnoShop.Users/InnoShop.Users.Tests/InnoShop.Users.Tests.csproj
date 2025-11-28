@@ -10,9 +10,16 @@
 
     <ItemGroup>
         <PackageReference Include="coverlet.collector" Version="6.0.2"/>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0"/>
-        <PackageReference Include="xunit" Version="2.9.2"/>
-        <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2"/>
+        <PackageReference Include="FluentAssertions" Version="8.8.0"/>
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.1"/>
+        <PackageReference Include="Moq" Version="4.20.72"/>
+        <PackageReference Include="xunit" Version="2.9.3"/>
+        <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5">
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
     </ItemGroup>
 
     <ItemGroup>
@@ -20,14 +27,10 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="IntegrationTests\"/>
-        <Folder Include="UnitTests\"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <Content Include="..\..\..\.dockerignore">
-            <Link>.dockerignore</Link>
-        </Content>
+        <ProjectReference Include="..\InnoShop.Users.API\InnoShop.Users.API.csproj"/>
+        <ProjectReference Include="..\InnoShop.Users.Application\InnoShop.Users.Application.csproj"/>
+        <ProjectReference Include="..\InnoShop.Users.Domain\InnoShop.Users.Domain.csproj"/>
+        <ProjectReference Include="..\InnoShop.Users.Infrastructure\InnoShop.Users.Infrastructure.csproj"/>
     </ItemGroup>
 
 </Project>

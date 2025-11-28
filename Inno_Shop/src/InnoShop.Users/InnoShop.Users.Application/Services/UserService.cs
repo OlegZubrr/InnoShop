@@ -1,6 +1,7 @@
 using InnoShop.Users.Application.Interfaces.Repositories;
 using InnoShop.Users.Application.Interfaces.Services;
 using InnoShop.Users.Domain.Entities;
+using InnoShop.Users.Domain.Enums;
 using InnoShop.Users.Domain.Exceptions;
 
 namespace InnoShop.Users.Application.Services;
@@ -130,6 +131,21 @@ public class UserService : IUserService
         if (!BCrypt.Net.BCrypt.Verify(currentPassword, user.PasswordHash)) throw new InvalidCredentialsException();
 
         user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(newPassword);
+        user.UpdatedAt = DateTime.UtcNow;
+
+        await _userRepository.UpdateAsync(user);
+        await _userRepository.SaveChangesAsync();
+
+        return true;
+    }
+
+    public async Task<bool> UpdateRoleAsync(Guid userId, UserRole role)
+    {
+        var user = await _userRepository.GetByIdAsync(userId);
+
+        if (user == null) throw new UserNotFoundException(userId);
+
+        user.Role = role;
         user.UpdatedAt = DateTime.UtcNow;
 
         await _userRepository.UpdateAsync(user);
