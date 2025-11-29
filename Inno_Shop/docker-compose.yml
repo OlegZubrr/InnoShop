@@ -1,0 +1,84 @@
+﻿version: '3.8'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    container_name: innoshop-rabbitmq
+    hostname: rabbitmq
+    ports:
+      - "5672:5672"   
+      - "15672:15672" 
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - innoshop-network
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  users-api:
+    build:
+      context: ./src/InnoShop.Users
+      dockerfile: Dockerfile
+    container_name: innoshop-users-api
+    ports:
+      - "5000:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__DefaultConnection=Data Source=/app/data/InnoShopUsers.db
+      - RabbitMQ__HostName=rabbitmq
+      - RabbitMQ__Port=5672
+      - RabbitMQ__UserName=guest
+      - RabbitMQ__Password=guest
+    volumes:
+      - users_data:/app/data
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - innoshop-network
+    restart: unless-stopped
+
+  products-api:
+    build:
+      context: ./src/InnoShop.Products
+      dockerfile: Dockerfile
+    container_name: innoshop-products-api
+    ports:
+      - "5001:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__DefaultConnection=Data Source=/app/data/InnoShopProducts.db
+      - RabbitMQ__HostName=rabbitmq
+      - RabbitMQ__Port=5672
+      - RabbitMQ__UserName=guest
+      - RabbitMQ__Password=guest
+    volumes:
+      - products_data:/app/data
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - innoshop-network
+    restart: unless-stopped
+
+networks:
+  innoshop-network:
+    name: innoshop-network
+    driver: bridge
+
+volumes:
+  rabbitmq_data:
+    driver: local
+  users_data:
+    driver: local
+  products_data:
+    driver: local
