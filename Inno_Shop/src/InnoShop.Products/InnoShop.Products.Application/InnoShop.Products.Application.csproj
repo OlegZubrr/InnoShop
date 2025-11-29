@@ -8,14 +8,17 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Folder Include="Commands\" />
-        <Folder Include="Interfaces\" />
-        <Folder Include="Queries\" />
-        <Folder Include="Services\" />
+        <Folder Include="Commands\"/>
+        <Folder Include="Queries\"/>
+        <Folder Include="Services\"/>
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="FluentValidation" Version="12.1.0" />
+        <PackageReference Include="FluentValidation" Version="12.1.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\InnoShop.Products.Domain\InnoShop.Products.Domain.csproj"/>
     </ItemGroup>
 
 </Project>
