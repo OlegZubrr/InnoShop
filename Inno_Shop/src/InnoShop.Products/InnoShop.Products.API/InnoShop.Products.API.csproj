@@ -15,4 +15,8 @@
         <Folder Include="Controllers\"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="..\InnoShop.Products.Domain\InnoShop.Products.Domain.csproj"/>
+    </ItemGroup>
+
 </Project>
