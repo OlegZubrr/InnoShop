@@ -8,16 +8,17 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Folder Include="Commands\"/>
-        <Folder Include="Queries\"/>
+        <Folder Include="Commands\" />
+        <Folder Include="Queries\" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="FluentValidation" Version="12.1.0"/>
+        <PackageReference Include="AutoMapper" Version="15.1.0" />
+        <PackageReference Include="FluentValidation" Version="12.1.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\InnoShop.Products.Domain\InnoShop.Products.Domain.csproj"/>
+        <ProjectReference Include="..\InnoShop.Products.Domain\InnoShop.Products.Domain.csproj" />
     </ItemGroup>
 
 </Project>
