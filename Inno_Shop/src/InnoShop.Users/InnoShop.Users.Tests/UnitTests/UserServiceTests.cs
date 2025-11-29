@@ -1,22 +1,27 @@
 using FluentAssertions;
 using InnoShop.Users.Application.Interfaces.Repositories;
+using InnoShop.Users.Application.Interfaces.Services;
 using InnoShop.Users.Application.Services;
 using InnoShop.Users.Domain.Entities;
 using InnoShop.Users.Domain.Enums;
 using InnoShop.Users.Domain.Exceptions;
+using InnoShop.Users.Infrastructure.Services;
 using Moq;
 
 namespace InnoShop.Users.Tests.UnitTests;
 
 public class UserServiceTests
 {
+    private readonly IPasswordHasher _passwordHasher;
     private readonly Mock<IUserRepository> _userRepositoryMock;
     private readonly UserService _userService;
 
     public UserServiceTests()
     {
         _userRepositoryMock = new Mock<IUserRepository>();
-        _userService = new UserService(_userRepositoryMock.Object);
+        _passwordHasher = new PasswordHasher();
+        _userService = new UserService(_userRepositoryMock.Object,
+            _passwordHasher);
     }
 
     [Fact]

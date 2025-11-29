@@ -12,6 +12,7 @@ public class AuthService : IAuthService
 {
     private readonly IEmailService _emailService;
     private readonly IMapper _mapper;
+    private readonly IPasswordHasher _passwordHasher;
     private readonly ITokenService _tokenService;
     private readonly IUserRepository _userRepository;
 
@@ -19,11 +20,13 @@ public class AuthService : IAuthService
         IUserRepository userRepository,
         ITokenService tokenService,
         IEmailService emailService,
+        IPasswordHasher passwordHasher,
         IMapper mapper)
     {
         _userRepository = userRepository;
         _tokenService = tokenService;
         _emailService = emailService;
+        _passwordHasher = passwordHasher;
         _mapper = mapper;
     }
 
@@ -31,7 +34,7 @@ public class AuthService : IAuthService
     {
         var user = await _userRepository.GetByEmailAsync(loginDto.Email);
 
-        if (user == null || !BCrypt.Net.BCrypt.Verify(loginDto.Password, user.PasswordHash))
+        if (user == null || !_passwordHasher.VerifyPassword(loginDto.Password, user.PasswordHash))
             throw new InvalidCredentialsException();
 
         if (!user.IsActive) throw new UserDeactivatedException();
@@ -56,7 +59,7 @@ public class AuthService : IAuthService
         var existingUser = await _userRepository.GetByEmailAsync(createDto.Email);
         if (existingUser != null) throw new UserAlreadyExistsException(createDto.Email);
 
-        var passwordHash = BCrypt.Net.BCrypt.HashPassword(createDto.Password);
+        var passwordHash = _passwordHasher.HashPassword(createDto.Password);
 
         var user = new User
         {
@@ -123,7 +126,7 @@ public class AuthService : IAuthService
         if (user == null || user.PasswordResetTokenExpiry < DateTime.UtcNow)
             throw new InvalidTokenException("password reset");
 
-        user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(resetPasswordDto.NewPassword);
+        user.PasswordHash = _passwordHasher.HashPassword(resetPasswordDto.NewPassword);
         user.PasswordResetToken = null;
         user.PasswordResetTokenExpiry = null;
         user.UpdatedAt = DateTime.UtcNow;

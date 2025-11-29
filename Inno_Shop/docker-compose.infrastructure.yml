@@ -1,9 +1,10 @@
 ﻿version: '3.8'
 
 services:
+
   rabbitmq:
-    image: rabbitmq:3-management
-    container_name: rabbitmq
+    image: rabbitmq:3.13-management-alpine
+    container_name: innoshop-rabbitmq
     ports:
       - "5672:5672" 
       - "15672:15672"
@@ -15,14 +16,17 @@ services:
     networks:
       - innoshop-network
     healthcheck:
-      test: rabbitmq-diagnostics -q ping
-      interval: 30s
-      timeout: 10s
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 5s
       retries: 5
+    restart: unless-stopped
 
 volumes:
   rabbitmq_data:
+    driver: local
 
 networks:
   innoshop-network:
+    name: innoshop-network
     driver: bridge

@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  users-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: innoshop-users-api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__DefaultConnection=Data Source=/app/data/InnoShopUsers.db
+      - RabbitMQ__HostName=rabbitmq
+      - RabbitMQ__Port=5672
+      - RabbitMQ__UserName=guest
+      - RabbitMQ__Password=guest
+    ports:
+      - "5000:8080"
+    volumes:
+      - sqlite_data:/app/data
+    networks:
+      - innoshop-network
+    restart: unless-stopped
+
+volumes:
+  sqlite_data:
+    driver: local
+
+networks:
+  innoshop-network:
+    name: innoshop-network
+    external: true  

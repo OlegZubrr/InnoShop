@@ -8,6 +8,7 @@ using InnoShop.Users.Application.Services;
 using InnoShop.Users.Domain.Entities;
 using InnoShop.Users.Domain.Enums;
 using InnoShop.Users.Domain.Exceptions;
+using InnoShop.Users.Infrastructure.Services;
 using Moq;
 
 namespace InnoShop.Users.Tests.UnitTests;
@@ -17,6 +18,7 @@ public class AuthServiceTests
     private readonly AuthService _authService;
     private readonly Mock<IEmailService> _emailServiceMock;
     private readonly IMapper _mapper;
+    private readonly IPasswordHasher _passwordHasher;
     private readonly Mock<ITokenService> _tokenServiceMock;
     private readonly Mock<IUserRepository> _userRepositoryMock;
 
@@ -29,10 +31,13 @@ public class AuthServiceTests
         var mapperConfig = new MapperConfiguration(cfg => { cfg.AddProfile<UserProfile>(); });
         _mapper = mapperConfig.CreateMapper();
 
+        _passwordHasher = new PasswordHasher();
+
         _authService = new AuthService(
             _userRepositoryMock.Object,
             _tokenServiceMock.Object,
             _emailServiceMock.Object,
+            _passwordHasher,
             _mapper
         );
     }

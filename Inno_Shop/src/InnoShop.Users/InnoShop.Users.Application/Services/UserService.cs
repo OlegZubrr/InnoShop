@@ -8,11 +8,14 @@ namespace InnoShop.Users.Application.Services;
 
 public class UserService : IUserService
 {
+    private readonly IPasswordHasher _passwordHasher;
     private readonly IUserRepository _userRepository;
 
-    public UserService(IUserRepository userRepository)
+    public UserService(IUserRepository userRepository,
+        IPasswordHasher passwordHasher)
     {
         _userRepository = userRepository;
+        _passwordHasher = passwordHasher;
     }
 
     public async Task<IEnumerable<User>> GetAllAsync()
@@ -34,6 +37,9 @@ public class UserService : IUserService
         var existing = await _userRepository.GetByEmailAsync(user.Email);
         if (existing != null)
             throw new UserAlreadyExistsException(user.Email);
+
+        if (!string.IsNullOrEmpty(user.PasswordHash))
+            user.PasswordHash = _passwordHasher.HashPassword(user.PasswordHash);
 
         user.Id = Guid.NewGuid();
 
@@ -128,7 +134,8 @@ public class UserService : IUserService
 
         if (user == null) throw new UserNotFoundException(userId);
 
-        if (!BCrypt.Net.BCrypt.Verify(currentPassword, user.PasswordHash)) throw new InvalidCredentialsException();
+        if (!_passwordHasher.VerifyPassword(currentPassword, user.PasswordHash))
+            throw new InvalidCredentialsException();
 
         user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(newPassword);
         user.UpdatedAt = DateTime.UtcNow;

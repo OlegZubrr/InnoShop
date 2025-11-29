@@ -3,6 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{84AF2873-4E52-4DF2-B080-1050626A260E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InnoShop.Users", "InnoShop.Users", "{5B600A63-4925-4A2E-A52A-C0082C56480E}"
+	ProjectSection(SolutionItems) = preProject
+		src\InnoShop.Users\.dockerignore = src\InnoShop.Users\.dockerignore
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InnoShop.Products", "InnoShop.Products", "{755F381D-0D86-4386-9068-3C2689F563C7}"
 EndProject

@@ -59,8 +59,6 @@ public class UsersController : ControllerBase
     {
         var userEntity = _mapper.Map<User>(userCreateDto);
 
-        userEntity.PasswordHash = BCrypt.Net.BCrypt.HashPassword(userCreateDto.Password);
-
         var createdUser = await _userService.CreateAsync(userEntity);
         var dto = _mapper.Map<UserResponseDto>(createdUser);
 
