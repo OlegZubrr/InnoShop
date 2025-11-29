@@ -8,6 +8,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InnoShop.Users", "InnoShop.
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InnoShop.Products", "InnoShop.Products", "{755F381D-0D86-4386-9068-3C2689F563C7}"
+	ProjectSection(SolutionItems) = preProject
+		src\InnoShop.Users\.dockerignore = src\InnoShop.Users\.dockerignore
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InnoShop.Users.API", "src\InnoShop.Users\InnoShop.Users.API\InnoShop.Users.API.csproj", "{F32B819F-79E8-497D-99CA-719F20E81023}"
 EndProject
