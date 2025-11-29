@@ -8,15 +8,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.10"/>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.10" />
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Controllers\"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <ProjectReference Include="..\InnoShop.Products.Domain\InnoShop.Products.Domain.csproj"/>
+        <ProjectReference Include="..\InnoShop.Products.Domain\InnoShop.Products.Domain.csproj" />
+        <ProjectReference Include="..\InnoShop.Products.Application\InnoShop.Products.Application.csproj" />
     </ItemGroup>
 
 </Project>
