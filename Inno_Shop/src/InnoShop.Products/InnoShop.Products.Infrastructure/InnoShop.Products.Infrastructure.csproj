@@ -8,19 +8,19 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Folder Include="Persistence\EntityConfigurations\" />
-        <Folder Include="Persistence\Migrations\" />
-        <Folder Include="Repositories\" />
-        <Folder Include="Services\" />
+        <Folder Include="Persistence\EntityConfigurations\"/>
+        <Folder Include="Persistence\Migrations\"/>
+        <Folder Include="Services\"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\InnoShop.Products.Domain\InnoShop.Products.Domain.csproj" />
+        <ProjectReference Include="..\InnoShop.Products.Domain\InnoShop.Products.Domain.csproj"/>
+        <ProjectReference Include="..\InnoShop.Products.Application\InnoShop.Products.Application.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.10" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.10"/>
     </ItemGroup>
 
 </Project>
