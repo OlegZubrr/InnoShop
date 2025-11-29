@@ -56,7 +56,6 @@ public class ProductService : IProductService
 
     public async Task<Product> CreateAsync(Product product, Guid userId)
     {
-        product.Id = Guid.NewGuid();
         product.UserId = userId;
         product.CreatedAt = DateTime.UtcNow;
 
