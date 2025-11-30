@@ -74,7 +74,7 @@ const HomePage = () => {
   if (loading) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <Loader fullScreen message="Загрузка товаров..." />
+        <Loader fullScreen message="Loading products..." />
       </div>
     );
   }
@@ -83,10 +83,10 @@ const HomePage = () => {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">
-          Каталог товаров
+          Product Catalog
         </h1>
         <p className="text-gray-600">
-          Найдено товаров: {pagination.totalCount}
+          Total products found: {pagination.totalCount}
         </p>
       </div>
 
@@ -100,9 +100,9 @@ const HomePage = () => {
         <div className="text-center py-12">
           <Package className="w-16 h-16 text-gray-400 mx-auto mb-4" />
           <h3 className="text-xl font-semibold text-gray-900 mb-2">
-            Товары не найдены
+            No products found
           </h3>
-          <p className="text-gray-600">Попробуйте изменить фильтры поиска</p>
+          <p className="text-gray-600">Try changing your search filters</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -116,7 +116,6 @@ const HomePage = () => {
         </div>
       )}
 
-      {/* Product Detail Modal */}
       <Modal
         isOpen={isModalOpen}
         onClose={handleCloseModal}
@@ -130,19 +129,19 @@ const HomePage = () => {
             </div>
 
             <div>
-              <h3 className="font-semibold text-gray-900 mb-2">Описание</h3>
+              <h3 className="font-semibold text-gray-900 mb-2">Description</h3>
               <p className="text-gray-600">{selectedProduct.description}</p>
             </div>
 
             <div className="grid grid-cols-2 gap-4 py-4 border-t border-b">
               <div>
-                <p className="text-sm text-gray-500 mb-1">Цена</p>
+                <p className="text-sm text-gray-500 mb-1">Price</p>
                 <p className="text-2xl font-bold text-primary-600">
                   {formatPrice(selectedProduct.price)}
                 </p>
               </div>
               <div>
-                <p className="text-sm text-gray-500 mb-1">Наличие</p>
+                <p className="text-sm text-gray-500 mb-1">Availability</p>
                 <span
                   className={`inline-block px-3 py-1 text-sm font-medium rounded-full ${
                     selectedProduct.isAvailable
@@ -150,13 +149,13 @@ const HomePage = () => {
                       : "bg-red-100 text-red-700"
                   }`}
                 >
-                  {selectedProduct.isAvailable ? "В наличии" : "Нет в наличии"}
+                  {selectedProduct.isAvailable ? "In Stock" : "Out of Stock"}
                 </span>
               </div>
             </div>
 
             <div className="text-sm text-gray-500">
-              <p>Создано: {formatDate(selectedProduct.createdAt)}</p>
+              <p>Created on: {formatDate(selectedProduct.createdAt)}</p>
             </div>
           </div>
         )}
