@@ -42,13 +42,23 @@ export const AuthProvider = ({ children }) => {
       const response = await authApi.login(credentials);
       const { token, user: userData } = response;
 
+      console.log("Login response:", response);
+      console.log("User data:", userData);
+      console.log("Token:", token);
+
+      const decodedToken = getTokenData(token);
+      console.log("Decoded token:", decodedToken);
+
       saveToken(token);
       saveUser(userData);
       setUser(userData);
       setIsAuthenticated(true);
 
+      console.log("User role:", userData.role);
+
       return { success: true, user: userData };
     } catch (error) {
+      console.error("Login error:", error);
       return {
         success: false,
         error: error.response?.data?.message || "Login error",
@@ -82,7 +92,14 @@ export const AuthProvider = ({ children }) => {
 
   const hasRole = useCallback(
     (role) => {
-      return user?.role === role;
+      console.log("Checking role:", role);
+      console.log("Current user:", user);
+      console.log("User role:", user?.role);
+
+      const userRole = user?.role;
+      console.log("Comparing:", userRole, "===", role);
+
+      return userRole === role;
     },
     [user]
   );
