@@ -3,7 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { ShoppingBag, User, LogOut, Users, Package } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
 import Button from "../common/Button";
-import { ROUTES, USER_ROLES } from "../../utils/constants";
+import { ROUTES } from "../../utils/constants";
+import { getRoleName } from "../../utils/helpers";
 import toast from "react-hot-toast";
 
 const Header = () => {
@@ -12,7 +13,7 @@ const Header = () => {
 
   const handleLogout = () => {
     logout();
-    toast.success("You have successfully logged out");
+    toast.success("You have logged out");
     navigate(ROUTES.LOGIN);
   };
 
@@ -46,20 +47,22 @@ const Header = () => {
                 {isAdmin() && (
                   <Link
                     to={ROUTES.ADMIN_USERS}
-                    className="flex items-center gap-2 text-gray-700 hover:text-primary-600 font-medium transition-colors"
+                    className="flex items-center gap-2 px-4 py-2 bg-purple-100 text-purple-700 hover:bg-purple-200 rounded-lg font-medium transition-colors"
                   >
                     <Users className="w-4 h-4" />
-                    Users
+                    User Management
                   </Link>
                 )}
 
                 <div className="flex items-center gap-3 ml-4 pl-4 border-l">
                   <div className="flex items-center gap-2">
                     <User className="w-4 h-4 text-gray-500" />
-                    <span className="text-sm text-gray-700">{user?.name}</span>
+                    <span className="text-sm text-gray-700">
+                      {user?.fullName || user?.name}
+                    </span>
                     {isAdmin() && (
-                      <span className="px-2 py-0.5 text-xs bg-primary-100 text-primary-700 rounded-full">
-                        Admin
+                      <span className="px-2 py-0.5 text-xs bg-purple-100 text-purple-700 rounded-full font-medium">
+                        {getRoleName(user?.role)}
                       </span>
                     )}
                   </div>
