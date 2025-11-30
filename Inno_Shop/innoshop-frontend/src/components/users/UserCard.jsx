@@ -7,7 +7,7 @@ import {
   CheckCircle,
   XCircle,
 } from "lucide-react";
-import { formatDate } from "../../utils/helpers";
+import { formatDate, getRoleName } from "../../utils/helpers";
 
 const UserCard = ({ user, onActivate, onDeactivate, onDelete }) => {
   return (
@@ -16,12 +16,12 @@ const UserCard = ({ user, onActivate, onDeactivate, onDelete }) => {
         <div className="flex items-center justify-center mb-2">
           <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center">
             <span className="text-3xl font-bold text-primary-600">
-              {user.name.charAt(0).toUpperCase()}
+              {user.fullName.charAt(0).toUpperCase()}
             </span>
           </div>
         </div>
         <h3 className="text-xl font-bold text-white text-center">
-          {user.name}
+          {user.fullName}
         </h3>
       </div>
 
@@ -36,7 +36,7 @@ const UserCard = ({ user, onActivate, onDeactivate, onDelete }) => {
             {user.emailConfirmed && (
               <span className="inline-flex items-center gap-1 text-xs text-green-600 mt-1">
                 <CheckCircle className="w-3 h-3" />
-                Verified
+                Confirmed
               </span>
             )}
           </div>
@@ -48,13 +48,13 @@ const UserCard = ({ user, onActivate, onDeactivate, onDelete }) => {
             <p className="text-sm text-gray-500">Role</p>
             <span
               className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium mt-1 ${
-                user.role === "Admin"
+                user.role === 1
                   ? "bg-purple-100 text-purple-800"
                   : "bg-blue-100 text-blue-800"
               }`}
             >
-              {user.role === "Admin" && <Shield className="w-3 h-3" />}
-              {user.role}
+              {user.role === 1 && <Shield className="w-3 h-3" />}
+              {getRoleName(user.role)}
             </span>
           </div>
         </div>

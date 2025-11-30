@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 import { Users, Search, Grid, List as ListIcon } from "lucide-react";
 import UserCard from "./UserCard";
-import Input from "../common/Input";
 import Button from "../common/Button";
+import { getRoleName } from "../../utils/helpers";
 
 const UserList = ({ users, onActivate, onDeactivate, onDelete, loading }) => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [viewMode, setViewMode] = useState("grid");
-  const [filterRole, setFilterRole] = useState("all");
-  const [filterStatus, setFilterStatus] = useState("all");
+  const [viewMode, setViewMode] = useState("grid"); // 'grid' or 'table'
+  const [filterRole, setFilterRole] = useState("all"); // 'all', 'Admin', 'User'
+  const [filterStatus, setFilterStatus] = useState("all"); // 'all', 'active', 'inactive'
 
   const filteredUsers = users.filter((user) => {
     const matchesSearch =
-      user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.email.toLowerCase().includes(searchTerm.toLowerCase());
 
     const matchesRole = filterRole === "all" || user.role === filterRole;
@@ -57,7 +57,7 @@ const UserList = ({ users, onActivate, onDeactivate, onDelete, loading }) => {
               onChange={(e) => setFilterRole(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             >
-              <option value="all">All roles</option>
+              <option value="all">All Roles</option>
               <option value="Admin">Admins</option>
               <option value="User">Users</option>
             </select>
@@ -69,7 +69,7 @@ const UserList = ({ users, onActivate, onDeactivate, onDelete, loading }) => {
               onChange={(e) => setFilterStatus(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             >
-              <option value="all">All statuses</option>
+              <option value="all">All Statuses</option>
               <option value="active">Active</option>
               <option value="inactive">Inactive</option>
             </select>
@@ -95,7 +95,6 @@ const UserList = ({ users, onActivate, onDeactivate, onDelete, loading }) => {
             >
               <Grid className="w-5 h-5" />
             </button>
-
             <button
               onClick={() => setViewMode("table")}
               className={`p-2 rounded-lg transition-colors ${
@@ -117,7 +116,7 @@ const UserList = ({ users, onActivate, onDeactivate, onDelete, loading }) => {
           <h3 className="text-xl font-semibold text-gray-900 mb-2">
             No users found
           </h3>
-          <p className="text-gray-600">Try changing the search parameters</p>
+          <p className="text-gray-600">Try changing the search criteria</p>
         </div>
       ) : (
         <>
@@ -156,7 +155,6 @@ const UserList = ({ users, onActivate, onDeactivate, onDelete, loading }) => {
                       </th>
                     </tr>
                   </thead>
-
                   <tbody className="divide-y divide-gray-200">
                     {filteredUsers.map((user) => (
                       <tr
@@ -167,23 +165,21 @@ const UserList = ({ users, onActivate, onDeactivate, onDelete, loading }) => {
                           <div className="flex items-center">
                             <div className="flex-shrink-0 h-10 w-10 bg-primary-100 rounded-full flex items-center justify-center">
                               <span className="text-primary-600 font-semibold">
-                                {user.name.charAt(0).toUpperCase()}
+                                {user.fullName.charAt(0).toUpperCase()}
                               </span>
                             </div>
                             <div className="ml-4">
                               <div className="text-sm font-medium text-gray-900">
-                                {user.name}
+                                {user.fullName}
                               </div>
                             </div>
                           </div>
                         </td>
-
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-900">
                             {user.email}
                           </div>
                         </td>
-
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span
                             className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${
@@ -195,7 +191,6 @@ const UserList = ({ users, onActivate, onDeactivate, onDelete, loading }) => {
                             {user.role}
                           </span>
                         </td>
-
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span
                             className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${
@@ -207,7 +202,6 @@ const UserList = ({ users, onActivate, onDeactivate, onDelete, loading }) => {
                             {user.isActive ? "Active" : "Inactive"}
                           </span>
                         </td>
-
                         <td className="px-6 py-4 whitespace-nowrap text-right">
                           <div className="flex items-center justify-end gap-2">
                             {user.isActive ? (
