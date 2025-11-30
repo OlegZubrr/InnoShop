@@ -1,8 +1,8 @@
 export const validateRegisterForm = (formData) => {
   const errors = {};
 
-  if (!formData.name || formData.name.trim().length < 2) {
-    errors.name = "Name must contain at least 2 characters";
+  if (!formData.fullName || formData.fullName.trim().length < 2) {
+    errors.fullName = "Name must be at least 2 characters long";
   }
 
   if (!formData.email) {
@@ -14,7 +14,7 @@ export const validateRegisterForm = (formData) => {
   if (!formData.password) {
     errors.password = "Password is required";
   } else if (formData.password.length < 8) {
-    errors.password = "Password must contain at least 8 characters";
+    errors.password = "Password must be at least 8 characters long";
   } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(formData.password)) {
     errors.password =
       "Password must contain uppercase, lowercase letters and numbers";
@@ -47,11 +47,11 @@ export const validateProductForm = (formData) => {
   const errors = {};
 
   if (!formData.name || formData.name.trim().length < 3) {
-    errors.name = "Name must contain at least 3 characters";
+    errors.name = "Name must be at least 3 characters long";
   }
 
   if (!formData.description || formData.description.trim().length < 10) {
-    errors.description = "Description must contain at least 10 characters";
+    errors.description = "Description must be at least 10 characters long";
   }
 
   if (!formData.price || formData.price <= 0) {
@@ -65,13 +65,13 @@ export const validatePasswordChange = (formData) => {
   const errors = {};
 
   if (!formData.currentPassword) {
-    errors.currentPassword = "Enter your current password";
+    errors.currentPassword = "Enter current password";
   }
 
   if (!formData.newPassword) {
-    errors.newPassword = "Enter a new password";
+    errors.newPassword = "Enter new password";
   } else if (formData.newPassword.length < 8) {
-    errors.newPassword = "Password must contain at least 8 characters";
+    errors.newPassword = "Password must be at least 8 characters long";
   } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(formData.newPassword)) {
     errors.newPassword =
       "Password must contain uppercase, lowercase letters and numbers";
@@ -90,7 +90,7 @@ export const validateResetPassword = (formData) => {
   if (!formData.password) {
     errors.password = "Password is required";
   } else if (formData.password.length < 8) {
-    errors.password = "Password must contain at least 8 characters";
+    errors.password = "Password must be at least 8 characters long";
   } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(formData.password)) {
     errors.password =
       "Password must contain uppercase, lowercase letters and numbers";
