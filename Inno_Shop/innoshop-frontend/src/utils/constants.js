@@ -1,14 +1,19 @@
 export const USERS_API_URL =
-  process.env.REACT_APP_USERS_API_URL || "http://localhost:5001/api";
+  process.env.REACT_APP_USERS_API_URL || "http://localhost:5000/api";
 export const PRODUCTS_API_URL =
-  process.env.REACT_APP_PRODUCTS_API_URL || "http://localhost:5002/api";
+  process.env.REACT_APP_PRODUCTS_API_URL || "http://localhost:5001/api";
 
 export const TOKEN_KEY = "innoshop_token";
 export const USER_KEY = "innoshop_user";
 
 export const USER_ROLES = {
-  ADMIN: "Admin",
-  USER: "User",
+  USER: 0,
+  ADMIN: 1,
+};
+
+export const USER_ROLE_NAMES = {
+  0: "User",
+  1: "Admin",
 };
 
 export const PRODUCT_AVAILABILITY = {
