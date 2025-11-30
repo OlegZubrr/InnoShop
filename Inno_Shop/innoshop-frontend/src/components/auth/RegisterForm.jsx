@@ -13,7 +13,7 @@ const RegisterForm = () => {
   const { register } = useAuth();
 
   const [formData, setFormData] = useState({
-    name: "",
+    fullName: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -49,7 +49,7 @@ const RegisterForm = () => {
 
     try {
       const result = await register({
-        name: formData.name,
+        fullName: formData.fullName,
         email: formData.email,
         password: formData.password,
       });
@@ -76,13 +76,13 @@ const RegisterForm = () => {
       {apiError && <ErrorMessage message={apiError} />}
 
       <Input
-        label="Name"
-        name="name"
+        label="Full Name"
+        name="fullName"
         type="text"
-        value={formData.name}
+        value={formData.fullName}
         onChange={handleChange}
-        placeholder="Your name"
-        error={errors.name}
+        placeholder="Your full name"
+        error={errors.fullName}
         required
         disabled={isLoading}
       />

@@ -21,11 +21,20 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp", policy =>
+    {
+        policy.WithOrigins("http://localhost:3000")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 builder.Services.Configure<RabbitMQSettings>(builder.Configuration.GetSection("RabbitMQ"));
 
 builder.Services.AddSingleton<IMessageBus, RabbitMQMessageBus>();
-
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
@@ -36,7 +45,6 @@ builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddAutoMapper(typeof(UserProfile));
 
 builder.Services.AddControllers();
-
 builder.Services.AddValidatorsFromAssemblyContaining<UserCreateDtoValidator>();
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddFluentValidationClientsideAdapters();
@@ -46,7 +54,7 @@ var jwtIssuer = builder.Configuration["Jwt:Issuer"];
 var jwtAudience = builder.Configuration["Jwt:Audience"];
 
 if (string.IsNullOrEmpty(jwtKey) || jwtKey.Length < 32)
-    throw new InvalidOperationException("JWT Key must be at least 32 characters long. Please check appsettings.json");
+    throw new InvalidOperationException("JWT Key must be at least 32 characters long. Check appsettings.json");
 
 builder.Services.AddAuthentication(options =>
     {
@@ -94,8 +102,7 @@ builder.Services.AddSwaggerGen(options =>
         Scheme = "Bearer",
         BearerFormat = "JWT",
         In = ParameterLocation.Header,
-        Description =
-            "Enter 'Bearer' [space] and then your token.\n\nExample: \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\""
+        Description = "Enter 'Bearer' + space + token"
     });
 
     options.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -128,11 +135,13 @@ app.UseMiddleware<ExceptionHandlingMiddleware>();
 if (app.Environment.IsDevelopment() || app.Environment.EnvironmentName == "Docker")
 {
     app.UseSwagger();
-    app.UseSwaggerUI(options => { options.SwaggerEndpoint("/swagger/v1/swagger.json", "InnoShop Users API V1"); });
+    app.UseSwaggerUI(options =>
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "InnoShop Users API V1"));
 }
 
-app.UseHttpsRedirection();
+app.UseCors("AllowReactApp");
 
+app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
