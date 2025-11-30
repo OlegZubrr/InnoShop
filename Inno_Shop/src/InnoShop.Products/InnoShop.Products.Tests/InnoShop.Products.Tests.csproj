@@ -5,11 +5,25 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <PreserveCompilationContext>true</PreserveCompilationContext>
     </PropertyGroup>
 
     <ItemGroup>
-        <Folder Include="IntegrationTests\"/>
-        <Folder Include="UnitTests\"/>
+        <ProjectReference Include="..\InnoShop.Products.Application\InnoShop.Products.Application.csproj" />
+        <ProjectReference Include="..\InnoShop.Products.Infrastructure\InnoShop.Products.Infrastructure.csproj" />
+        <ProjectReference Include="..\InnoShop.Products.API\InnoShop.Products.API.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
+        <PackageReference Include="Moq" Version="4.20.72" />
+        <PackageReference Include="Xunit" Version="2.9.3" />
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.5.5">
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
     </ItemGroup>
 
 </Project>
