@@ -52,10 +52,7 @@ public class RabbitMQConsumerService : BackgroundService
                 true);
 
             var queueDeclareResult = _channel.QueueDeclare(
-                string.Empty,
-                false,
-                true,
-                true);
+                string.Empty);
 
             var queueName = queueDeclareResult.QueueName;
 
@@ -141,7 +138,7 @@ public class RabbitMQConsumerService : BackgroundService
                 var deletedEvent = JsonSerializer.Deserialize<UserDeletedEvent>(message);
                 if (deletedEvent != null)
                     _logger.LogInformation("Processing deletion of user {UserId}", deletedEvent.UserId);
-                // TODO: Implement actual deletion logic
+                await productRepository.DeleteAsync(deletedEvent.UserId);
                 break;
         }
     }
