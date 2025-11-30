@@ -1,5 +1,5 @@
 import { jwtDecode } from "jwt-decode";
-import { TOKEN_KEY, USER_KEY } from "./constants";
+import { TOKEN_KEY, USER_KEY, USER_ROLE_NAMES } from "./constants";
 
 export const saveToken = (token) => {
   localStorage.setItem(TOKEN_KEY, token);
@@ -29,8 +29,11 @@ export const getTokenData = (token) => {
   if (!token) return null;
 
   try {
-    return jwtDecode(token);
+    const decoded = jwtDecode(token);
+    console.log("Decoded token data:", decoded);
+    return decoded;
   } catch (error) {
+    console.error("Token decode error:", error);
     return null;
   }
 };
@@ -49,14 +52,14 @@ export const removeUser = () => {
 };
 
 export const formatPrice = (price) => {
-  return new Intl.NumberFormat("ru-RU", {
+  return new Intl.NumberFormat("en-US", {
     style: "currency",
-    currency: "RUB",
+    currency: "USD",
   }).format(price);
 };
 
 export const formatDate = (date) => {
-  return new Intl.DateTimeFormat("ru-RU", {
+  return new Intl.DateTimeFormat("en-US", {
     year: "numeric",
     month: "long",
     day: "numeric",
@@ -66,7 +69,7 @@ export const formatDate = (date) => {
 };
 
 export const formatShortDate = (date) => {
-  return new Intl.DateTimeFormat("ru-RU", {
+  return new Intl.DateTimeFormat("en-US", {
     year: "numeric",
     month: "short",
     day: "numeric",
@@ -115,7 +118,7 @@ export const getErrorMessage = (error) => {
     return "Unable to connect to the server";
   }
 
-  return error.message || "Unknown error occurred";
+  return error.message || "An unknown error occurred";
 };
 
 export const isValidEmail = (email) => {
@@ -126,4 +129,16 @@ export const isValidEmail = (email) => {
 export const isValidPassword = (password) => {
   const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d@$!%*?&]{8,}$/;
   return passwordRegex.test(password);
+};
+
+export const getRoleName = (roleNumber) => {
+  return USER_ROLE_NAMES[roleNumber] || "Unknown";
+};
+
+export const isAdminRole = (roleNumber) => {
+  return roleNumber === 1;
+};
+
+export const isUserRole = (roleNumber) => {
+  return roleNumber === 0;
 };
