@@ -7,8 +7,4 @@
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
-    <ItemGroup>
-        <Folder Include="ValueObjects\"/>
-    </ItemGroup>
-
 </Project>
