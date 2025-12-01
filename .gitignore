@@ -1,17 +1,8 @@
-### Rider ###
+
 .idea/
 *.sln.iml
-
-# Rider settings folder
+*.DotSettings.user
 .idea/**
-
-# User-specific files
-*.suo
-*.user
-*.userosscache
-*.sln.docstates
-
-# Rider caches
 .idea/.idea.*
 .idea/workspace.xml
 .idea/tasks.xml
@@ -29,25 +20,16 @@
 .idea/assetWizard.xml
 .idea/caches/
 .idea/compiler.xml
+.idea/system/
 
-# JetBrains Rider specific files
-*.DotSettings.user
-*.sln.iml
-
-### Build results ###
-[Bb]in/
-[Oo]bj/
-[Ll]og/
-[Ll]ogs/
-[Dd]ebug/
-[Rr]elease/
-x64/
-x86/
-[Aa][Rr][Mm]/
-[Aa][Rr][Mm]64/
-
-### Visual Studio ###
+# ==================================
+# Visual Studio
+# ==================================
 .vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
 *.dbmdl
 *.bak
 *.backup
@@ -57,67 +39,102 @@ x86/
 *.ldf
 *.ndf
 
-# Uncomment if using local databases
-# App_Data/
 
-# MSTest test results
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+Generated/
+
+
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
-
-# NUnit
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+*.coverage
+*.coveragexml
+TestResults/
+coverage/
 
-### Others ###
+
 _ReSharper*/
 *.resharper
 *.DotSettings
 *.userprefs
 *.orig
 
-# NuGet
 *.nupkg
 *.snupkg
 **/packages/*
 !**/packages/build/
 *.nuget.props
 *.nuget.targets
+project.lock.json
+project.fragment.lock.json
+artifacts/
 
-# Ignore virtual environment directories
-.env/
+
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+build/
+dist/
+.cache/
+*.local
+
+*.tsbuildinfo
+
+
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 .venv/
 
-# OS-specific
+
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
 Thumbs.db
 ehthumbs.db
 desktop.ini
 
-# Tooling
-*.swp
-*.swo
-
-# Rider logs
-.idea/system/
-
-# Publish
+# ==================================
+# Publish Profiles
+# ==================================
 *.publishsettings
+*.pubxml
 *.pubxml.user
 *.Publish.xml
 
-# Coverage
-*.coverage
-*.coveragexml
 
-# Temporary files
 ~$*
 *.tmp
 *.temp
-
-# Auto-generated files
-Generated/
-obj/
-bin/
-
-appsettings.json
+*.swp
+*.swo
+*~
