@@ -1,3 +1,4 @@
+using System.Net;
 using InnoShop.Users.Application.Interfaces.Services;
 using InnoShop.Users.Infrastructure.Configuration;
 using MailKit.Net.Smtp;
@@ -24,7 +25,7 @@ public class EmailServiceMailtrap : IEmailService
     public async Task SendEmailConfirmationAsync(string toEmail, string token, string userName)
     {
         var subject = "Confirm Your Email - InnoShop";
-        var confirmationLink = $"http://localhost:5000/api/auth/confirm-email?token={token}";
+        var confirmationLink = $"http://localhost:5000/api/auth/confirm-email?token={WebUtility.UrlEncode(token)}";
 
         var body = $@"
             <html>
@@ -55,31 +56,31 @@ public class EmailServiceMailtrap : IEmailService
     public async Task SendPasswordResetAsync(string toEmail, string token, string userName)
     {
         var subject = "Reset Your Password - InnoShop";
-        var resetLink = $"http://localhost:5000/api/auth/reset-password?token={token}";
+        var resetLink = $"http://localhost:3000/reset-password?token={WebUtility.UrlEncode(token)}";
 
         var body = $@"
-            <html>
-            <body style='font-family: Arial, sans-serif;'>
-                <div style='max-width: 600px; margin: 0 auto; padding: 20px;'>
-                    <h2 style='color: #333;'>Hello {userName}!</h2>
-                    <p>We received a request to reset your password for your InnoShop account.</p>
-                    <p>Click the button below to reset your password:</p>
-                    <div style='text-align: center; margin: 30px 0;'>
-                        <a href='{resetLink}' 
-                           style='display: inline-block; padding: 12px 30px; background-color: #f44336; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;'>
-                            Reset Password
-                        </a>
-                    </div>
-                    <p style='color: #666; font-size: 14px;'>Or copy and paste this link into your browser:</p>
-                    <p style='color: #0066cc; word-break: break-all;'>{resetLink}</p>
-                    <p style='color: #999; font-size: 12px; margin-top: 30px;'>This link will expire in 1 hour.</p>
-                    <p style='color: #999; font-size: 12px;'>If you didn't request this, please ignore this email and your password will remain unchanged.</p>
-                    <hr style='border: none; border-top: 1px solid #eee; margin: 20px 0;'>
-                    <p style='color: #999; font-size: 12px;'>Best regards,<br>InnoShop Team</p>
+        <html>
+        <body style='font-family: Arial, sans-serif;'>
+            <div style='max-width: 600px; margin: 0 auto; padding: 20px;'>
+                <h2 style='color: #333;'>Hello {userName}!</h2>
+                <p>We received a request to reset your password for your InnoShop account.</p>
+                <p>Click the button below to reset your password:</p>
+                <div style='text-align: center; margin: 30px 0;'>
+                    <a href='{resetLink}' 
+                       style='display: inline-block; padding: 12px 30px; background-color: #f44336; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;'>
+                        Reset Password
+                    </a>
                 </div>
-            </body>
-            </html>
-        ";
+                <p style='color: #666; font-size: 14px;'>Or copy and paste this link into your browser:</p>
+                <p style='color: #0066cc; word-break: break-all;'>{resetLink}</p>
+                <p style='color: #999; font-size: 12px; margin-top: 30px;'>This link will expire in 1 hour.</p>
+                <p style='color: #999; font-size: 12px;'>If you didn't request this, please ignore this email and your password will remain unchanged.</p>
+                <hr style='border: none; border-top: 1px solid #eee; margin: 20px 0;'>
+                <p style='color: #999; font-size: 12px;'>Best regards,<br>InnoShop Team</p>
+            </div>
+        </body>
+        </html>
+    ";
 
         await SendEmailAsync(toEmail, subject, body);
     }
@@ -133,16 +134,12 @@ public class EmailServiceMailtrap : IEmailService
 
             using var client = new SmtpClient();
 
-            // Подключаемся к Mailtrap
             await client.ConnectAsync(_emailSettings.SmtpServer, _emailSettings.SmtpPort, SecureSocketOptions.StartTls);
 
-            // Аутентификация
             await client.AuthenticateAsync(_emailSettings.Username, _emailSettings.Password);
 
-            // Отправляем письмо
             await client.SendAsync(message);
 
-            // Отключаемся
             await client.DisconnectAsync(true);
 
             _logger.LogInformation("Email sent successfully to {Email}", toEmail);

@@ -6,8 +6,8 @@ services:
     container_name: innoshop-rabbitmq
     hostname: rabbitmq
     ports:
-      - "5672:5672"   
-      - "15672:15672" 
+      - "5672:5672"  
+      - "15672:15672"
     environment:
       RABBITMQ_DEFAULT_USER: guest
       RABBITMQ_DEFAULT_PASS: guest
@@ -66,6 +66,20 @@ services:
     depends_on:
       rabbitmq:
         condition: service_healthy
+    networks:
+      - innoshop-network
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./innoshop-frontend
+      dockerfile: Dockerfile
+    container_name: innoshop-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - users-api
+      - products-api
     networks:
       - innoshop-network
     restart: unless-stopped
