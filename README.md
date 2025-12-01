@@ -32,7 +32,7 @@ InnoShop is a microservices-based e-commerce platform that demonstrates modern s
 ✅ **Comprehensive Testing** - Unit and integration tests with high coverage  
 ✅ **Docker Ready** - Complete containerization with docker-compose  
 ✅ **Modern Frontend** - React SPA with Tailwind CSS  
-✅ **Security First** - JWT authentication, email confirmation, password recovery  
+✅ **Security First** - JWT authentication, email confirmation, password recovery
 
 ## 🏗 Architecture
 
@@ -80,13 +80,14 @@ Each microservice follows the Clean Architecture pattern:
   - JWT-based token authentication
   - Role-based access control (User, Admin)
   - Refresh token mechanism
-  
 - 📧 **Email Features**
+
   - Email confirmation on registration
   - Password recovery via email
   - Mailtrap integration for email delivery
 
 - 👥 **User Operations**
+
   - CRUD operations for user profiles
   - User activation/deactivation (Admin only)
   - Role management
@@ -100,8 +101,8 @@ Each microservice follows the Clean Architecture pattern:
 - 📦 **Product CRUD**
   - Create, read, update, delete products
   - Owner-based authorization (users can only modify their own products)
-  
 - 🔍 **Advanced Search & Filtering**
+
   - Search by name and description
   - Filter by price range
   - Filter by availability
@@ -117,13 +118,14 @@ Each microservice follows the Clean Architecture pattern:
 - 🎨 **Modern UI/UX**
   - Responsive design with Tailwind CSS
   - Clean and intuitive interface
-  
 - 🔑 **Authentication Pages**
+
   - Login and registration
   - Email confirmation
   - Password recovery and reset
 
 - 🛍 **Product Management**
+
   - Product listing with filters
   - My Products page
   - Add/Edit/Delete products
@@ -202,17 +204,20 @@ InnoShop/
 ### Quick Start with Docker
 
 1. **Clone the repository**
+
 ```bash
 git clone https://github.com/OlegZubrr/InnoShop.git
 cd InnoShop
 ```
 
 2. **Run with Docker Compose**
+
 ```bash
 docker-compose up -d
 ```
 
 3. **Access the application**
+
 - Frontend: http://localhost:3000
 - Users API: http://localhost:5001
 - Products API: http://localhost:5002
@@ -223,6 +228,7 @@ docker-compose up -d
 #### Backend Services
 
 1. **Users Service**
+
 ```bash
 cd src/InnoShop.Users/InnoShop.Users.API
 dotnet restore
@@ -230,6 +236,7 @@ dotnet run
 ```
 
 2. **Products Service**
+
 ```bash
 cd src/InnoShop.Products/InnoShop.Products.API
 dotnet restore
@@ -247,6 +254,7 @@ npm start
 ### Environment Configuration
 
 #### Users Service (`appsettings.json`)
+
 ```json
 {
   "JwtSettings": {
@@ -263,6 +271,7 @@ npm start
 ```
 
 #### Products Service (`appsettings.json`)
+
 ```json
 {
   "JwtSettings": {
@@ -304,6 +313,7 @@ npm start
 - `DELETE /api/products/{id}` - Delete product (owner only)
 
 **Query Parameters for GET /api/products:**
+
 - `searchTerm` - Search in name/description
 - `minPrice` - Minimum price filter
 - `maxPrice` - Maximum price filter
@@ -313,43 +323,50 @@ npm start
 
 ## 📸 Screenshots
 
-
 #### Homepage - Product Catalog
+
 ![Homepage](docs/images/01-homepage.png)
-*Public product catalog with search and filtering capabilities*
+_Public product catalog with search and filtering capabilities_
 
 #### User Registration
+
 ![Registration Page](docs/images/02-register.png)
-*User registration form with validation*
+_User registration form with validation_
 
 #### Email Confirmation
+
 ![Email Confirmation](docs/images/03-email-confirmation.png)
-*Email confirmation system (Mailtrap integration)*
+_Email confirmation system (Mailtrap integration)_
 
 #### User Login
+
 ![Login Page](docs/images/04-login.png)
-*Secure login with JWT authentication*
+_Secure login with JWT authentication_
 
 #### My Products - User Dashboard
+
 ![My Products Empty](docs/images/05-my-products-empty.png)
-*User's product management dashboard*
+_User's product management dashboard_
 
 #### Add Product Modal
+
 ![Add Product](docs/images/06-add-product-modal.png)
-*Product creation form with validation*
+_Product creation form with validation_
 
 #### My Products - Product List
+
 ![My Products with Items](docs/images/07-my-products-with-items.png)
-*User's products with edit and delete options*
+_User's products with edit and delete options_
 
 #### Product Filtering
+
 ![Homepage with Filters](docs/images/08-homepage-with-filters.png)
-*Advanced product search and filtering*
+_Advanced product search and filtering_
 
 #### Admin Panel
-![Admin Users Panel](docs/images/09-admin-users-panel.png)
-*Admin dashboard for user management*
 
+![Admin Users Panel](docs/images/09-admin-users-panel.png)
+_Admin dashboard for user management_
 
 ## 🧪 Testing
 
@@ -377,45 +394,6 @@ dotnet test
 - **Integration Tests**: API endpoints with in-memory database
 - **Mocking**: Email service and message bus for isolated testing
 
-## 🎓 Assessment Summary
-
-### ✅ Requirements Fulfilled
-
-| Requirement | Status | Implementation |
-|------------|--------|----------------|
-| Users Microservice with CRUD | ✅ | Full REST API with all operations |
-| User attributes (ID, name, email, role) | ✅ | Complete user entity with all fields |
-| JWT Authentication & Authorization | ✅ | Token-based auth with role support |
-| Password recovery | ✅ | Email-based password reset flow |
-| Email confirmation | ✅ | Token-based email verification |
-| Admin role for user management | ✅ | Admin-only endpoints for activation |
-| User deactivation → hide products | ✅ | Event-driven soft delete via RabbitMQ |
-| Products Microservice with CRUD | ✅ | Full REST API with all operations |
-| Product attributes | ✅ | Complete product entity |
-| Search & filtering | ✅ | Advanced search with multiple filters |
-| Error handling & validation | ✅ | FluentValidation + global middleware |
-| Owner-based authorization | ✅ | Users can only edit their products |
-| ASP.NET Core | ✅ | .NET 8.0 |
-| RESTful API communication | ✅ | HTTP + RabbitMQ for events |
-| JWT tokens | ✅ | Implemented with refresh tokens |
-| Database (EF Core, Code First) | ✅ | SQLite with migrations |
-| Docker deployment | ✅ | Complete docker-compose setup |
-| Unit & Integration testing | ✅ | xUnit tests for both services |
-| Clean Architecture | ✅ | Full Onion Architecture implementation |
-| Frontend | ✅ | Modern React SPA with Tailwind CSS |
-
-### 🌟 Extra Features
-
-- RabbitMQ message broker for event-driven architecture
-- AutoMapper for object mapping
-- Comprehensive error handling with ProblemDetails
-- Soft delete pattern for products
-- Email service integration (Mailtrap)
-- React Context for state management
-- Protected routes in frontend
-- Responsive design
-- Docker multi-stage builds
-
 ## 📝 License
 
 This project is licensed under the MIT License.
@@ -423,4 +401,5 @@ This project is licensed under the MIT License.
 ## 👨‍💻 Author
 
 **Oleg Zubr**
+
 - GitHub: [@OlegZubrr](https://github.com/OlegZubrr)
