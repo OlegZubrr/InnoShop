@@ -4,18 +4,26 @@ import UserCard from "./UserCard";
 import Button from "../common/Button";
 import { getRoleName } from "../../utils/helpers";
 
-const UserList = ({ users, onActivate, onDeactivate, onDelete, loading }) => {
+const UserList = ({
+  users,
+  onActivate,
+  onDeactivate,
+  onDelete,
+  onChangeRole,
+  loading,
+}) => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [viewMode, setViewMode] = useState("grid"); // 'grid' or 'table'
-  const [filterRole, setFilterRole] = useState("all"); // 'all', 'Admin', 'User'
-  const [filterStatus, setFilterStatus] = useState("all"); // 'all', 'active', 'inactive'
+  const [viewMode, setViewMode] = useState("grid");
+  const [filterRole, setFilterRole] = useState("all");
+  const [filterStatus, setFilterStatus] = useState("all");
 
   const filteredUsers = users.filter((user) => {
     const matchesSearch =
       user.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.email.toLowerCase().includes(searchTerm.toLowerCase());
 
-    const matchesRole = filterRole === "all" || user.role === filterRole;
+    const matchesRole =
+      filterRole === "all" || user.role === parseInt(filterRole);
 
     const matchesStatus =
       filterStatus === "all" ||
@@ -57,9 +65,9 @@ const UserList = ({ users, onActivate, onDeactivate, onDelete, loading }) => {
               onChange={(e) => setFilterRole(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             >
-              <option value="all">All Roles</option>
-              <option value="Admin">Admins</option>
-              <option value="User">Users</option>
+              <option value="all">All roles</option>
+              <option value="1">Administrators</option>
+              <option value="0">Users</option>
             </select>
           </div>
 
@@ -69,7 +77,7 @@ const UserList = ({ users, onActivate, onDeactivate, onDelete, loading }) => {
               onChange={(e) => setFilterStatus(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             >
-              <option value="all">All Statuses</option>
+              <option value="all">All statuses</option>
               <option value="active">Active</option>
               <option value="inactive">Inactive</option>
             </select>
@@ -91,7 +99,7 @@ const UserList = ({ users, onActivate, onDeactivate, onDelete, loading }) => {
                   ? "bg-primary-100 text-primary-600"
                   : "bg-gray-100 text-gray-600 hover:bg-gray-200"
               }`}
-              title="Grid"
+              title="Grid view"
             >
               <Grid className="w-5 h-5" />
             </button>
@@ -102,7 +110,7 @@ const UserList = ({ users, onActivate, onDeactivate, onDelete, loading }) => {
                   ? "bg-primary-100 text-primary-600"
                   : "bg-gray-100 text-gray-600 hover:bg-gray-200"
               }`}
-              title="Table"
+              title="Table view"
             >
               <ListIcon className="w-5 h-5" />
             </button>
@@ -116,7 +124,7 @@ const UserList = ({ users, onActivate, onDeactivate, onDelete, loading }) => {
           <h3 className="text-xl font-semibold text-gray-900 mb-2">
             No users found
           </h3>
-          <p className="text-gray-600">Try changing the search criteria</p>
+          <p className="text-gray-600">Try adjusting your search filters</p>
         </div>
       ) : (
         <>
@@ -129,6 +137,7 @@ const UserList = ({ users, onActivate, onDeactivate, onDelete, loading }) => {
                   onActivate={onActivate}
                   onDeactivate={onDeactivate}
                   onDelete={onDelete}
+                  onChangeRole={onChangeRole}
                 />
               ))}
             </div>
@@ -181,15 +190,24 @@ const UserList = ({ users, onActivate, onDeactivate, onDelete, loading }) => {
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <span
-                            className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                              user.role === "Admin"
-                                ? "bg-purple-100 text-purple-800"
-                                : "bg-blue-100 text-blue-800"
-                            }`}
-                          >
-                            {user.role}
-                          </span>
+                          <div className="flex items-center gap-2">
+                            <span
+                              className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                                user.role === 1
+                                  ? "bg-purple-100 text-purple-800"
+                                  : "bg-blue-100 text-blue-800"
+                              }`}
+                            >
+                              {getRoleName(user.role)}
+                            </span>
+                            <button
+                              onClick={() => onChangeRole(user)}
+                              className="text-xs text-primary-600 hover:text-primary-700 font-medium"
+                              title="Change role"
+                            >
+                              Change
+                            </button>
+                          </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span

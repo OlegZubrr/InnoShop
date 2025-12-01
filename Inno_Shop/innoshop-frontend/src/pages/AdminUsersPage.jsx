@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Users } from "lucide-react";
 import usersApiService from "../api/usersApi";
 import UserList from "../components/users/UserList";
+import ChangeRoleModal from "../components/users/ChangeRoleModal";
 import Loader from "../components/common/Loader";
 import ErrorMessage from "../components/common/ErrorMessage";
 import { getErrorMessage } from "../utils/helpers";
@@ -11,6 +12,10 @@ const AdminUsersPage = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  const [isRoleModalOpen, setIsRoleModalOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [isUpdatingRole, setIsUpdatingRole] = useState(false);
 
   const fetchUsers = async () => {
     setLoading(true);
@@ -72,6 +77,33 @@ const AdminUsersPage = () => {
     }
   };
 
+  const handleOpenRoleModal = (user) => {
+    setSelectedUser(user);
+    setIsRoleModalOpen(true);
+  };
+
+  const handleCloseRoleModal = () => {
+    setIsRoleModalOpen(false);
+    setSelectedUser(null);
+  };
+
+  const handleChangeRole = async (newRole) => {
+    if (!selectedUser) return;
+
+    setIsUpdatingRole(true);
+
+    try {
+      await usersApiService.updateUserRole(selectedUser.id, newRole);
+      toast.success("User role updated successfully!");
+      handleCloseRoleModal();
+      fetchUsers();
+    } catch (err) {
+      toast.error(getErrorMessage(err));
+    } finally {
+      setIsUpdatingRole(false);
+    }
+  };
+
   if (loading) {
     return <Loader fullScreen message="Loading users..." />;
   }
@@ -84,7 +116,7 @@ const AdminUsersPage = () => {
           <h1 className="text-3xl font-bold text-gray-900">User Management</h1>
         </div>
         <p className="text-gray-600">
-          Activate, deactivate, or delete system users
+          Activate, deactivate, change roles, or delete system users
         </p>
       </div>
 
@@ -95,7 +127,16 @@ const AdminUsersPage = () => {
         onActivate={handleActivate}
         onDeactivate={handleDeactivate}
         onDelete={handleDelete}
+        onChangeRole={handleOpenRoleModal}
         loading={loading}
+      />
+
+      <ChangeRoleModal
+        isOpen={isRoleModalOpen}
+        onClose={handleCloseRoleModal}
+        user={selectedUser}
+        onConfirm={handleChangeRole}
+        isLoading={isUpdatingRole}
       />
     </div>
   );

@@ -9,7 +9,13 @@ import {
 } from "lucide-react";
 import { formatDate, getRoleName } from "../../utils/helpers";
 
-const UserCard = ({ user, onActivate, onDeactivate, onDelete }) => {
+const UserCard = ({
+  user,
+  onActivate,
+  onDeactivate,
+  onDelete,
+  onChangeRole,
+}) => {
   return (
     <div className="bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden">
       <div className="bg-gradient-to-r from-primary-500 to-primary-600 p-6">
@@ -44,18 +50,27 @@ const UserCard = ({ user, onActivate, onDeactivate, onDelete }) => {
 
         <div className="flex items-center gap-3">
           <Shield className="w-5 h-5 text-gray-400 flex-shrink-0" />
-          <div>
+          <div className="flex-1">
             <p className="text-sm text-gray-500">Role</p>
-            <span
-              className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium mt-1 ${
-                user.role === 1
-                  ? "bg-purple-100 text-purple-800"
-                  : "bg-blue-100 text-blue-800"
-              }`}
-            >
-              {user.role === 1 && <Shield className="w-3 h-3" />}
-              {getRoleName(user.role)}
-            </span>
+            <div className="flex items-center gap-2 mt-1">
+              <span
+                className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium ${
+                  user.role === 1
+                    ? "bg-purple-100 text-purple-800"
+                    : "bg-blue-100 text-blue-800"
+                }`}
+              >
+                {user.role === 1 && <Shield className="w-3 h-3" />}
+                {getRoleName(user.role)}
+              </span>
+              <button
+                onClick={() => onChangeRole(user)}
+                className="text-xs text-primary-600 hover:text-primary-700 font-medium hover:underline"
+                title="Change role"
+              >
+                Change
+              </button>
+            </div>
           </div>
         </div>
 
